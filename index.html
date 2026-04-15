@@ -704,6 +704,7 @@
         </li>
         <li><a href="#">Censo</a></li>
         <li><a href="#">Biblioteca</a></li>
+        <li><a href="#consulta">Consulta Predios</a></li>
         <li><a href="#chatbot" class="btn-chat-nav">💧 Majuy</a></li>
       </ul>
 
@@ -873,6 +874,42 @@
         </div>
       </div>
     </div>
+<!-- ══════════════════════════════════════
+     SECCIÓN CONSULTA DE PREDIOS
+══════════════════════════════════════ -->
+<section id="consulta">
+  <div class="sec-titulo">
+    <span class="etiqueta">Consulta Ciudadana</span>
+    <h2>Consulta de Predios</h2>
+    <p>Ingrese el código de su predio para consultar el estado del permiso y la información asociada.</p>
+  </div>
+
+  <div class="wrap">
+
+    <div style="max-width:600px;margin:0 auto;background:white;padding:30px;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.1);">
+
+      <form id="formConsulta">
+        <label style="font-weight:600;">Código del predio</label>
+        <input 
+          type="text" 
+          id="codigo_predio" 
+          placeholder="Ej: 12345"
+          style="width:100%;padding:12px;margin:10px 0 20px;border-radius:8px;border:1px solid #ccc;"
+          required
+        >
+
+        <button type="submit" style="width:100%;padding:12px;background:#6b1a1a;color:white;border:none;border-radius:8px;font-weight:bold;">
+          Buscar
+        </button>
+      </form>
+
+      <div id="resultado" style="margin-top:20px;"></div>
+
+    </div>
+
+  </div>
+</section>
+
   </section>
 
 
