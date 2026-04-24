@@ -1165,6 +1165,282 @@
       if (e.key === 'Enter') consultarPredio();
     });
   </script>
+  <!-- ══════════════════════════════════════
+       SECCIÓN FORMULARIO REGISTRO DE PREDIOS
+  ══════════════════════════════════════ -->
+  <section id="registro-predio" style="background:#fff;padding:80px 0;">
+    <div class="sec-titulo">
+      <span class="etiqueta">Registro Territorial</span>
+      <h2>Registrar Nuevo Predio</h2>
+      <p>Diligencia el formulario completo para registrar un predio en el Sistema Territorial Muisca de Cota.</p>
+    </div>
+    <div class="divisor"><span>◆</span></div>
+
+    <div class="wrap">
+      <form id="formPredio" style="background:#fdf6ed;border-radius:20px;padding:40px;
+            box-shadow:0 4px 24px rgba(107,26,26,.12);max-width:900px;margin:0 auto;">
+
+        <!-- MENSAJE ESTADO -->
+        <div id="msgRegistro" style="display:none;padding:14px 20px;border-radius:10px;
+             margin-bottom:24px;font-size:14px;font-weight:600;"></div>
+
+        <!-- CÓDIGO PREDIO -->
+        <div style="margin-bottom:28px;">
+          <label style="display:block;font-family:'Playfair Display',serif;
+                 font-size:18px;font-weight:700;color:#6b1a1a;margin-bottom:4px;">
+            Código del Predio
+          </label>
+          <p style="font-size:13px;color:#7a4a1e;margin-bottom:12px;">
+            Este código vincula las 3 tablas. Ejemplo: PRE-001
+          </p>
+          <input type="text" id="f-codigo" placeholder="PRE-001" required
+            style="width:100%;padding:13px 18px;border:2px solid #c9882a;
+                   border-radius:10px;font-size:15px;font-family:'Source Sans 3',sans-serif;
+                   color:#2a1f14;background:#fff;outline:none;"/>
+        </div>
+
+        <!-- SECCIÓN 1 — DATOS DEL USUARIO -->
+        <div style="background:#fff;border-radius:14px;padding:28px;margin-bottom:24px;
+                    border-left:5px solid #6b1a1a;">
+          <h3 style="font-family:'Playfair Display',serif;color:#6b1a1a;
+                     font-size:18px;margin-bottom:20px;">
+            👤 Datos del Propietario
+          </h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
+
+            <div>
+              <label class="f-label">Nombre</label>
+              <input type="text" id="f-nombre" placeholder="Nombre" class="f-input"/>
+            </div>
+            <div>
+              <label class="f-label">Apellidos</label>
+              <input type="text" id="f-apellidos" placeholder="Apellidos" class="f-input"/>
+            </div>
+            <div>
+              <label class="f-label">Documento</label>
+              <input type="number" id="f-documento" placeholder="Número de documento" class="f-input"/>
+            </div>
+            <div>
+              <label class="f-label">Teléfono</label>
+              <input type="text" id="f-telefono" placeholder="Ej: 3001234567" class="f-input"/>
+            </div>
+            <div>
+              <label class="f-label">Dirección</label>
+              <input type="text" id="f-direccion" placeholder="Dirección de residencia" class="f-input"/>
+            </div>
+            <div>
+              <label class="f-label">Edad</label>
+              <input type="number" id="f-edad" placeholder="Edad en años" class="f-input"/>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SECCIÓN 2 — DATOS DEL PREDIO -->
+        <div style="background:#fff;border-radius:14px;padding:28px;margin-bottom:24px;
+                    border-left:5px solid #c9882a;">
+          <h3 style="font-family:'Playfair Display',serif;color:#6b1a1a;
+                     font-size:18px;margin-bottom:20px;">
+            🗺️ Datos del Predio
+          </h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
+
+            <div>
+              <label class="f-label">Ubicación</label>
+              <input type="text" id="f-ubicacion" placeholder="Vereda o sector" class="f-input"/>
+            </div>
+            <div>
+              <label class="f-label">Extensión (hectáreas)</label>
+              <input type="number" step="0.01" id="f-extension" placeholder="Ej: 2.5" class="f-input"/>
+            </div>
+            <div>
+              <label class="f-label">Número de Escritura</label>
+              <input type="text" id="f-escritura" placeholder="Ej: ESC-2024-001" class="f-input"/>
+            </div>
+            <div>
+              <label class="f-label">Forma de Obtención</label>
+              <select id="f-forma" class="f-input">
+                <option value="">Selecciona...</option>
+                <option value="compra">Compra</option>
+                <option value="cesion">Cesión</option>
+                <option value="herencia">Herencia</option>
+                <option value="donacion_comunidad">Donación Comunidad</option>
+              </select>
+            </div>
+            <div style="grid-column:1/-1;">
+              <label class="f-label">Coordenadas del Mapa</label>
+              <input type="text" id="f-coordenadas" placeholder="Ej: 4.8123,-74.1234" class="f-input"/>
+              <p style="font-size:12px;color:#7a4a1e;margin-top:4px;">
+                💡 Abre Google Maps → clic derecho en el predio → copia las coordenadas
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SECCIÓN 3 — ESTADO Y PERMISOS -->
+        <div style="background:#fff;border-radius:14px;padding:28px;margin-bottom:32px;
+                    border-left:5px solid #2d5a1b;">
+          <h3 style="font-family:'Playfair Display',serif;color:#6b1a1a;
+                     font-size:18px;margin-bottom:20px;">
+            📋 Estado y Permisos
+          </h3>
+
+          <div style="margin-bottom:16px;">
+            <label class="f-label">Estado del Predio</label>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">
+              <label class="check-label"><input type="checkbox" value="en_construccion" class="f-estado"/> En construcción</label>
+              <label class="check-label"><input type="checkbox" value="pisos_construidos" class="f-estado"/> Pisos construidos</label>
+              <label class="check-label"><input type="checkbox" value="baldio" class="f-estado"/> Baldío</label>
+              <label class="check-label"><input type="checkbox" value="siembro" class="f-estado"/> Siembro</label>
+              <label class="check-label"><input type="checkbox" value="en_venta" class="f-estado"/> En venta</label>
+              <label class="check-label"><input type="checkbox" value="en_division" class="f-estado"/> En división</label>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;">
+            <label class="toggle-label">
+              <input type="checkbox" id="f-civiles"/>
+              <span class="toggle-txt">✅ Permisos Civiles</span>
+            </label>
+            <label class="toggle-label">
+              <input type="checkbox" id="f-admin"/>
+              <span class="toggle-txt">✅ Permisos Administrativos</span>
+            </label>
+          </div>
+
+        </div>
+
+        <!-- BOTÓN GUARDAR -->
+        <div style="text-align:center;">
+          <button type="button" onclick="guardarPredio()"
+            style="background:linear-gradient(135deg,#6b1a1a,#8c2828);color:#fff;
+                   border:none;padding:16px 48px;border-radius:14px;font-size:16px;
+                   font-weight:700;cursor:pointer;font-family:'Source Sans 3',sans-serif;
+                   box-shadow:0 4px 20px rgba(107,26,26,.3);transition:all .2s;"
+            onmouseover="this.style.transform='translateY(-2px)'"
+            onmouseout="this.style.transform='translateY(0)'">
+            💾 Guardar Predio
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </section>
+
+  <style>
+    .f-label {
+      display:block;font-size:12px;font-weight:700;letter-spacing:1px;
+      text-transform:uppercase;color:#6b1a1a;margin-bottom:6px;
+    }
+    .f-input {
+      width:100%;padding:12px 16px;border:1.5px solid #ddd;border-radius:10px;
+      font-size:14px;font-family:'Source Sans 3',sans-serif;color:#2a1f14;
+      background:#fff;outline:none;transition:border-color .2s;
+    }
+    .f-input:focus { border-color:#c9882a; }
+    .check-label {
+      display:flex;align-items:center;gap:8px;
+      padding:8px 14px;border-radius:8px;
+      background:#fdf6ed;border:1px solid #c9882a;
+      font-size:13px;font-weight:600;color:#2a1f14;cursor:pointer;
+    }
+    .check-label input { width:16px;height:16px;accent-color:#6b1a1a; }
+    .toggle-label {
+      display:flex;align-items:center;gap:10px;
+      padding:14px 18px;border-radius:10px;
+      background:#fdf6ed;border:1px solid #c9882a;
+      cursor:pointer;font-size:14px;font-weight:600;color:#2a1f14;
+    }
+    .toggle-label input { width:18px;height:18px;accent-color:#2d5a1b; }
+  </style>
+
+  <script>
+    async function guardarPredio() {
+      const TOKEN = 'REEMPLAZA_CON_TU_TOKEN';
+      const BASE_URL = 'https://api.baserow.io/api/database/rows/table/';
+      const ID_USUARIOS = '930904';
+      const ID_PREDIOS = '930757';
+      const ID_PERMISOS = '930909';
+
+      const codigo = document.getElementById('f-codigo').value.trim();
+      const msg = document.getElementById('msgRegistro');
+
+      if (!codigo) {
+        mostrarMsgReg('⚠️ El código del predio es obligatorio.', '#fef3cd', '#856404');
+        return;
+      }
+
+      mostrarMsgReg('⏳ Guardando datos...', '#d1ecf1', '#0c5460');
+
+      // Estados seleccionados
+      const estados = [...document.querySelectorAll('.f-estado:checked')]
+        .map(cb => cb.value);
+
+      const headers = {
+        'Authorization': `Token ${TOKEN}`,
+        'Content-Type': 'application/json'
+      };
+
+      try {
+        // Guardar en las 3 tablas simultáneamente
+        await Promise.all([
+
+          fetch(`${BASE_URL}${ID_USUARIOS}/?user_field_names=true`, {
+            method: 'POST', headers,
+            body: JSON.stringify({
+              codigo_predio: codigo,
+              nombre_usuario: document.getElementById('f-nombre').value,
+              apellidos_usuario: document.getElementById('f-apellidos').value,
+              documento_usuario: Number(document.getElementById('f-documento').value),
+              telefono_usuario: document.getElementById('f-telefono').value,
+              direccion_usuario: document.getElementById('f-direccion').value,
+              edad_usuario: Number(document.getElementById('f-edad').value)
+            })
+          }),
+
+          fetch(`${BASE_URL}${ID_PREDIOS}/?user_field_names=true`, {
+            method: 'POST', headers,
+            body: JSON.stringify({
+              codigo_predio: codigo,
+              ubicacion_predio: document.getElementById('f-ubicacion').value,
+              extension_predio: Number(document.getElementById('f-extension').value),
+              numero_escritura: document.getElementById('f-escritura').value,
+              forma_obtencion: document.getElementById('f-forma').value,
+              coordenadas_mapa: document.getElementById('f-coordenadas').value
+            })
+          }),
+
+          fetch(`${BASE_URL}${ID_PERMISOS}/?user_field_names=true`, {
+            method: 'POST', headers,
+            body: JSON.stringify({
+              codigo_predio: codigo,
+              estado_predio: estados,
+              permisos_civiles: document.getElementById('f-civiles').checked,
+              permisos_administrativos: document.getElementById('f-admin').checked
+            })
+          })
+
+        ]);
+
+        mostrarMsgReg('✅ Predio registrado exitosamente en el sistema.', '#d4edda', '#155724');
+        document.getElementById('formPredio').reset();
+
+      } catch(err) {
+        mostrarMsgReg('❌ Error al guardar. Verifica tu conexión e intenta de nuevo.', '#f8d7da', '#721c24');
+      }
+    }
+
+    function mostrarMsgReg(texto, bg, color) {
+      const msg = document.getElementById('msgRegistro');
+      msg.textContent = texto;
+      msg.style.background = bg;
+      msg.style.color = color;
+      msg.style.border = `1px solid ${color}`;
+      msg.style.display = 'block';
+      msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  </script>
   <!-- ══════════════════════ CTA BANNER -->
   <section class="cta-banner">
     <div class="wrap">
