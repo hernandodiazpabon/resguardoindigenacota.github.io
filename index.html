@@ -703,6 +703,7 @@
           </ul>
         </li>
         <li><a href="#">Censo</a></li>
+        <li><a href="#consulta-predios">🗺️ Consulta de Predios</a></li>
         <li><a href="#">Biblioteca</a></li>
         <li><a href="#consulta">Consulta Predios</a></li>
         <li><a href="#chatbot" class="btn-chat-nav">💧 Majuy</a></li>
@@ -953,7 +954,217 @@
     </div>
   </section>
 
+   <!-- ══════════════════════════════════════
+       SECCIÓN CONSULTA DE PREDIOS
+  ══════════════════════════════════════ -->
+  <section id="consulta-predios" style="background:#f5ead8;padding:80px 0;">
+    <div class="sec-titulo">
+      <span class="etiqueta">Sistema Territorial</span>
+      <h2>Consulta tu Predio</h2>
+      <p>Ingresa el código de tu predio para ver su estado, ubicación y permisos dentro del Resguardo Indígena Muisca de Cota.</p>
+    </div>
+    <div class="divisor"><span>◆</span></div>
 
+    <div class="wrap">
+      <div style="background:#fff;border-radius:20px;padding:40px;box-shadow:0 4px 24px rgba(107,26,26,.12);max-width:800px;margin:0 auto;">
+
+        <!-- BUSCADOR -->
+        <div style="display:flex;gap:12px;margin-bottom:32px;flex-wrap:wrap;">
+          <input
+            type="text"
+            id="inputCodigo"
+            placeholder="Ej: PRE-001"
+            style="flex:1;min-width:200px;padding:14px 20px;border:2px solid #c9882a;
+                   border-radius:12px;font-size:15px;font-family:'Source Sans 3',sans-serif;
+                   color:#2a1f14;outline:none;"
+          />
+          <button
+            onclick="consultarPredio()"
+            style="background:linear-gradient(135deg,#6b1a1a,#8c2828);color:#fff;
+                   border:none;padding:14px 32px;border-radius:12px;font-size:15px;
+                   font-weight:700;cursor:pointer;font-family:'Source Sans 3',sans-serif;
+                   transition:all .2s;"
+            onmouseover="this.style.background='linear-gradient(135deg,#8c2828,#a83232)'"
+            onmouseout="this.style.background='linear-gradient(135deg,#6b1a1a,#8c2828)'"
+          >
+            🔍 Consultar
+          </button>
+        </div>
+
+        <!-- MENSAJE DE ESTADO -->
+        <div id="mensajePredio" style="display:none;padding:14px 20px;border-radius:10px;
+             margin-bottom:20px;font-size:14px;font-weight:600;"></div>
+
+        <!-- RESULTADO -->
+        <div id="resultadoPredio" style="display:none;">
+
+          <!-- DATOS DEL USUARIO -->
+          <div style="margin-bottom:24px;">
+            <h3 style="font-family:'Playfair Display',serif;color:#6b1a1a;
+                       font-size:18px;margin-bottom:16px;padding-bottom:8px;
+                       border-bottom:2px solid #c9882a;">
+              👤 Datos del Propietario
+            </h3>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+              <div class="dato-item"><span class="dato-label">Nombre</span><span id="d-nombre" class="dato-valor"></span></div>
+              <div class="dato-item"><span class="dato-label">Apellidos</span><span id="d-apellidos" class="dato-valor"></span></div>
+              <div class="dato-item"><span class="dato-label">Documento</span><span id="d-documento" class="dato-valor"></span></div>
+              <div class="dato-item"><span class="dato-label">Teléfono</span><span id="d-telefono" class="dato-valor"></span></div>
+              <div class="dato-item"><span class="dato-label">Dirección</span><span id="d-direccion" class="dato-valor"></span></div>
+              <div class="dato-item"><span class="dato-label">Edad</span><span id="d-edad" class="dato-valor"></span></div>
+            </div>
+          </div>
+
+          <!-- DATOS DEL PREDIO -->
+          <div style="margin-bottom:24px;">
+            <h3 style="font-family:'Playfair Display',serif;color:#6b1a1a;
+                       font-size:18px;margin-bottom:16px;padding-bottom:8px;
+                       border-bottom:2px solid #c9882a;">
+              🗺️ Datos del Predio
+            </h3>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+              <div class="dato-item"><span class="dato-label">Código</span><span id="d-codigo" class="dato-valor"></span></div>
+              <div class="dato-item"><span class="dato-label">Ubicación</span><span id="d-ubicacion" class="dato-valor"></span></div>
+              <div class="dato-item"><span class="dato-label">Extensión</span><span id="d-extension" class="dato-valor"></span></div>
+              <div class="dato-item"><span class="dato-label">N° Escritura</span><span id="d-escritura" class="dato-valor"></span></div>
+              <div class="dato-item"><span class="dato-label">Forma Obtención</span><span id="d-forma" class="dato-valor"></span></div>
+              <div class="dato-item">
+                <span class="dato-label">Ver en Mapa</span>
+                <a id="d-mapa" href="#" target="_blank" class="dato-valor"
+                   style="color:#6b1a1a;font-weight:700;">📍 Abrir mapa</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- ESTADO Y PERMISOS -->
+          <div>
+            <h3 style="font-family:'Playfair Display',serif;color:#6b1a1a;
+                       font-size:18px;margin-bottom:16px;padding-bottom:8px;
+                       border-bottom:2px solid #c9882a;">
+              📋 Estado y Permisos
+            </h3>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+              <div class="dato-item"><span class="dato-label">Estado del Predio</span><span id="d-estado" class="dato-valor"></span></div>
+              <div class="dato-item"><span class="dato-label">Permisos Civiles</span><span id="d-civiles" class="dato-valor"></span></div>
+              <div class="dato-item"><span class="dato-label">Permisos Administrativos</span><span id="d-admin" class="dato-valor"></span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .dato-item{
+      background:#fdf6ed;border:1px solid rgba(201,136,42,.2);
+      border-radius:10px;padding:12px 16px;
+    }
+    .dato-label{
+      display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;
+      text-transform:uppercase;color:#c9882a;margin-bottom:4px;
+    }
+    .dato-valor{
+      display:block;font-size:14px;font-weight:600;color:#2a1f14;
+    }
+  </style>
+
+  <script>
+    const TOKEN = 'CbjoXQZtMiS5hHj6lIsKZ54TZnWXxm4r';
+    const BASE_URL = 'https://api.baserow.io/api/database/rows/table/';
+    const ID_USUARIOS = '930904';
+    const ID_PREDIOS = '930757';
+    const ID_PERMISOS = '930909';
+
+    async function consultarPredio() {
+      const codigo = document.getElementById('inputCodigo').value.trim();
+      const msg = document.getElementById('mensajePredio');
+      const res = document.getElementById('resultadoPredio');
+
+      if (!codigo) {
+        mostrarMensaje('⚠️ Por favor ingresa un código de predio.', '#fef3cd', '#856404');
+        return;
+      }
+
+      mostrarMensaje('⏳ Consultando...', '#d1ecf1', '#0c5460');
+      res.style.display = 'none';
+
+      try {
+        const headers = { 'Authorization': `Token ${TOKEN}` };
+
+        // Consultar las 3 tablas en paralelo
+        const [rUsuarios, rPredios, rPermisos] = await Promise.all([
+          fetch(`${BASE_URL}${ID_USUARIOS}/?filter__field_codigo_predio__equal=${codigo}`, { headers }),
+          fetch(`${BASE_URL}${ID_PREDIOS}/?filter__field_codigo_predio__equal=${codigo}`, { headers }),
+          fetch(`${BASE_URL}${ID_PERMISOS}/?filter__field_codigo_predio__equal=${codigo}`, { headers })
+        ]);
+
+        const [dUsuarios, dPredios, dPermisos] = await Promise.all([
+          rUsuarios.json(), rPredios.json(), rPermisos.json()
+        ]);
+
+        if (!dUsuarios.results?.length && !dPredios.results?.length) {
+          mostrarMensaje('❌ No se encontró ningún predio con ese código.', '#f8d7da', '#721c24');
+          return;
+        }
+
+        const u = dUsuarios.results?.[0] || {};
+        const p = dPredios.results?.[0] || {};
+        const e = dPermisos.results?.[0] || {};
+
+        // Llenar datos usuario
+        document.getElementById('d-nombre').textContent = u.nombre_usuario || '—';
+        document.getElementById('d-apellidos').textContent = u.apellidos_usuario || '—';
+        document.getElementById('d-documento').textContent = u.documento_usuario || '—';
+        document.getElementById('d-telefono').textContent = u.telefono_usuario || '—';
+        document.getElementById('d-direccion').textContent = u.direccion_usuario || '—';
+        document.getElementById('d-edad').textContent = u.edad_usuario ? u.edad_usuario + ' años' : '—';
+
+        // Llenar datos predio
+        document.getElementById('d-codigo').textContent = p.codigo_predio || codigo;
+        document.getElementById('d-ubicacion').textContent = p.ubicacion_predio || '—';
+        document.getElementById('d-extension').textContent = p.extension_predio ? p.extension_predio + ' ha' : '—';
+        document.getElementById('d-escritura').textContent = p.numero_escritura || '—';
+        document.getElementById('d-forma').textContent = p.forma_obtencion?.value || p.forma_obtencion || '—';
+
+        const mapa = document.getElementById('d-mapa');
+        if (p.coordenadas_mapa) {
+          mapa.href = `https://maps.google.com/?q=${p.coordenadas_mapa}`;
+          mapa.textContent = '📍 Abrir mapa';
+        } else {
+          mapa.removeAttribute('href');
+          mapa.textContent = '—';
+        }
+
+        // Llenar estado y permisos
+        const estados = e.estado_predio;
+        document.getElementById('d-estado').textContent = 
+          Array.isArray(estados) ? estados.map(s => s.value || s).join(', ') : estados || '—';
+        document.getElementById('d-civiles').textContent = e.permisos_civiles ? '✅ Sí' : '❌ No';
+        document.getElementById('d-admin').textContent = e.permisos_administrativos ? '✅ Sí' : '❌ No';
+
+        mostrarMensaje('✅ Predio encontrado correctamente.', '#d4edda', '#155724');
+        res.style.display = 'block';
+
+      } catch (err) {
+        mostrarMensaje('❌ Error de conexión. Intenta de nuevo.', '#f8d7da', '#721c24');
+      }
+    }
+
+    function mostrarMensaje(texto, bg, color) {
+      const msg = document.getElementById('mensajePredio');
+      msg.textContent = texto;
+      msg.style.background = bg;
+      msg.style.color = color;
+      msg.style.border = `1px solid ${color}`;
+      msg.style.display = 'block';
+    }
+
+    // Permitir Enter para buscar
+    document.getElementById('inputCodigo').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') consultarPredio();
+    });
+  </script>
   <!-- ══════════════════════ CTA BANNER -->
   <section class="cta-banner">
     <div class="wrap">
